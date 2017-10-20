@@ -13,13 +13,13 @@
 <script id="code">
  
   function init() {
+   
     var $ = go.GraphObject.make;
 
     myDiagram =
       $(go.Diagram, "myDiagramDiv", // must be the ID or reference to an HTML DIV
-        {
-          initialContentAlignment: go.Spot.Center,
-          allowCopy: false,
+        {initialContentAlignment: go.Spot.Center,
+         allowCopy: false,
           linkingTool: $(MessagingTool),  // defined below
           "resizingTool.isGridSnapEnabled": true,
           "draggingTool.gridSnapCellSize": new go.Size(1, MessageSpacing/4),
@@ -31,6 +31,7 @@
         });
 
     // when the document is modified, add a "*" to the title and enable the "Save" button
+    // should be able to remove this for final version
     myDiagram.addDiagramListener("Modified", function(e) {
       var button = document.getElementById("SaveButton");
       if (button) button.disabled = !myDiagram.isModified;
@@ -55,17 +56,19 @@
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         $("HyperlinkText",
           function(group) { return group.data.url; },
-        $(go.Panel, "Auto",
-          { name: "HEADER" },
-          $(go.Shape, "Rectangle",
+          
+          $(go.Panel, "Auto",
+           { name: "HEADER" },
+           $(go.Shape, "Rectangle",
             {
               fill: $(go.Brush, "Linear", { 0: "#bbdefb", 1: go.Brush.darkenBy("#bbdefb", 0.1) }),
               stroke: null }),
-          $(go.TextBlock,
+           $(go.TextBlock,
             { margin: 5,
               font: "400 10pt Source Sans Pro, sans-serif"},
-            new go.Binding("text", "text"))
-        )),
+            new go.Binding("text", "text")),
+         )
+        ),
         $(go.Shape,
           {
             figure: "LineV",
@@ -114,6 +117,8 @@
           },
         
           new go.Binding("height", "duration", computeActivityHeight).makeTwoWay(backComputeActivityHeight))
+          
+        
       );
 
 	
@@ -340,52 +345,18 @@
     <textarea id="mySavedModel" style="width:100%;height:400px">
 { "class": "go.GraphLinksModel",
   "nodeDataArray": [
-{"key":"FE", "text":"Front end", "isGroup":true, "url":"http://google.com", "loc":"0 0", "duration":20},
-{"key":"NginX", "text":"NginX", "isGroup":true, "url":"http://google.com", "loc":"100 0", "duration":20},
-{"key":"Gatekeeper", "text":"Gatekeeper", "isGroup":true, "url":"http://google.com", "loc":"200 0", "duration":20},
-{"key":"API", "text":"Pub API Router", "isGroup":true, "url":"http://google.com", "loc":"300 0", "duration":20},
-{"key":"Quote", "text":"Quote Service", "isGroup":true, "url":"http://google.com", "loc":"400 0", "duration":20},
-{"key":"Geo", "text":"Geo-location", "isGroup":true, "url":"http://google.com", "loc":"500 0", "duration":20},
-{"key":"OSC", "text":"OSC DB", "isGroup":true, "url":"http://google.com", "loc":"600 0", "duration":20},
-{"key":"PV", "text":"Price validation", "isGroup":true, "url":"http://google.com", "loc":"700 0", "duration":20},
-{"key":"IF", "text":"IF proxy", "isGroup":true, "url":"http://google.com", "loc":"800 0", "duration":20},
-{"key":"RM", "text":"Rating mainframe", "isGroup":true, "url":"http://google.com", "loc":"900 0", "duration":20},
+{"key":"FE", "text":"Front end", "isGroup":true, "url":"http://google.com", "loc":"0 0", "duration":3},
+{"key":"NginX", "text":"NginX", "isGroup":true, "url":"http://google.com", "loc":"100 0", "duration":3},
 
-{"group":"NginX", "start":1, "duration":1},
-{"group":"Gatekeeper", "start":2, "duration":1},
-{"group":"API", "start":3, "duration":1},
-{"group":"Quote", "start":4, "duration":1},
-{"group":"Geo", "start":5, "duration":1},
-{"group":"OSC", "start":6, "duration":1},
-{"group":"IF", "start":7, "duration":5},
-{"group":"RM", "start":10, "duration":1},
-{"group":"Quote", "start":12, "duration":3},
-{"group":"PV", "start":13, "duration":1},
-{"group":"API", "start":15, "duration":3},
-{"group":"Gatekeeper", "start":18, "duration":1},
-{"group":"NginX", "start":19, "duration":1},
-{"group":"FE", "start":20, "duration":1}
+
+{"group":"NginX", "start":1, "duration":1}
+
  
 ],
   "linkDataArray": [
 {"from":"FE", "to":"NginX", "text":"variables", "time":1},
-{"from":"NginX", "to":"Gatekeeper", "text":"variables", "time":2},
-{"from":"Gatekeeper", "to":"API", "text":"authentication", "time":3},
-{"from":"API", "to":"Quote", "text":"check URL", "time":4},
-{"from":"Quote", "to":"Geo", "text":"location", "time":5},
-{"from":"Geo", "to":"OSC", "text":"route", "time":6},
-{"from":"OSC", "to":"IF", "text":"variables", "time":7},
-{"from":"IF", "to":"IF", "text":"convert to BA", "time":8},
-{"from":"IF", "to":"RM", "text":"get prices", "time":10},
-{"from":"RM", "to":"IF", "text":"prices", "time":11},
-{"from":"IF", "to":"Quote", "text":"prices", "time":12},
-{"from":"Quote", "to":"PV", "text":"quote", "time":13},
-{"from":"PV", "to":"Quote", "text":"token", "time":14},
-{"from":"Quote", "to":"API", "text":"available options", "time":15},
-{"from":"API", "to":"API", "text":"check error codes", "time":17},
-{"from":"API", "to":"Gatekeeper", "text":"quotes", "time":18},
-{"from":"Gatekeeper", "to":"NginX", "text":"quotes", "time":19},
-{"from":"NginX", "to":"FE", "text":"quotes", "time":20}
+
+{"from":"NginX", "to":"FE", "text":"quotes", "time":2}
  ]}
     
     

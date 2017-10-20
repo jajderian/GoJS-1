@@ -10,7 +10,7 @@
 <script src="../assets/js/goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
 <script id="code">
   function init() {
-    if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+    
     var $ = go.GraphObject.make;
 
     myDiagram =
@@ -21,17 +21,20 @@
       $(go.Node, "Auto",
         $(go.Shape, "Ellipse", { fill: "lightskyblue" }),
         $("HyperlinkText",
-          function(node) { return "https://gojs.net/" + node.data.version; },
-          function(node) { return "Visit GoJS " + node.data.version; },
+          function(node) { return node.data.url; },
+          function(node) { return node.data.text; },
           { margin: 10 }
         )
       );
 
     myDiagram.model = new go.GraphLinksModel([
-      { key: 1, version: "beta" },
-      { key: 2, version: "latest" },
+      { key: 1, url: "http://google.com", text: "Front end" },
+      
+      { key: 2, url: "http://tnt.com", text: "NginX" },
+      { key: 3, url: "http://gojs.net", text: "Gatekeeper" }
     ],[
-      { from: 1, to: 2 }
+      { from: 1, to: 2 },
+      { from: 2, to: 3 }
     ]);
   }
 </script>
